@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #0b0e17 0%, #1a1f35 50%, #0f1322 100%);
+      min-height: 100vh;
+      color: #e8e8ed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 56px 40px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+      text-align: center;
+    }
+    .icon { font-size: 64px; margin-bottom: 20px; display: block; }
+    h1 {
+      font-size: 28px; font-weight: 700;
+      background: linear-gradient(135deg, #f0e6ff 0%, #c4b5fd 50%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    p { font-size: 16px; color: #9ca3af; line-height: 1.6; margin-bottom: 32px; }
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      border: none; border-radius: 14px; color: #fff;
+      font-size: 15px; font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(124, 58, 237, 0.35); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="icon">✅</span>
+    <h1>Thank You!</h1>
+    <p>Your feedback has been received and sent directly to the team. We appreciate you taking the time to share your thoughts.</p>
+    <a href="/feedback-site/" class="btn">Submit Another Response</a>
+  </div>
+</body>
+</html>

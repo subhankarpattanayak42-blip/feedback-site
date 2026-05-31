@@ -29,8 +29,7 @@
     }
     .particle {
       position: absolute;
-      width: 4px;
-      height: 4px;
+      width: 4px; height: 4px;
       background: rgba(255,255,255,0.15);
       border-radius: 50%;
       animation: float linear infinite;
@@ -54,10 +53,7 @@
       border-radius: 28px;
       padding: 48px 40px;
       box-shadow: 0 32px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
-      transition: transform 0.3s ease;
     }
-
-    .card:hover { transform: translateY(-2px); }
 
     .card-header { text-align: center; margin-bottom: 36px; }
     .card-header .icon { font-size: 48px; margin-bottom: 12px; display: block; }
@@ -69,43 +65,22 @@
       background-clip: text;
       letter-spacing: -0.5px;
     }
-    .card-header p { font-size: 15px; color: #9ca3af; margin-top: 8px; font-weight: 400; }
+    .card-header p { font-size: 15px; color: #9ca3af; margin-top: 8px; }
 
-    /* ═══ RATING — REDESIGNED ═══ */
-    .rating-section {
-      margin-bottom: 32px;
-      text-align: center;
-    }
-
+    /* Rating */
+    .rating-section { margin-bottom: 32px; text-align: center; }
     .rating-section > .section-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #d1d5db;
-      margin-bottom: 18px;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
+      display: block; font-size: 14px; font-weight: 600;
+      color: #d1d5db; margin-bottom: 18px;
+      text-transform: uppercase; letter-spacing: 1.2px;
     }
 
-    /* Stars row */
-    .stars {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
+    .stars { display: flex; justify-content: center; gap: 8px; margin-bottom: 10px; }
     .stars input { display: none; }
-
     .stars label {
-      cursor: pointer;
-      font-size: 44px;
-      color: #374151;
-      transition: all 0.2s ease;
-      line-height: 1;
-      user-select: none;
+      cursor: pointer; font-size: 44px; color: #374151;
+      transition: all 0.2s ease; line-height: 1; user-select: none;
     }
-
     .stars label:hover,
     .stars label:hover ~ label,
     .stars input:checked ~ label {
@@ -113,62 +88,33 @@
       text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
       transform: scale(1.05);
     }
-
     .stars label:active { transform: scale(0.9); }
 
-    /* Rating badge — shows clearly what was selected */
     .rating-badge {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 14px auto 0;
-      padding: 10px 22px;
+      display: none; align-items: center; justify-content: center;
+      gap: 10px; margin: 14px auto 0; padding: 10px 22px;
       background: rgba(251, 191, 36, 0.1);
       border: 1px solid rgba(251, 191, 36, 0.25);
-      border-radius: 999px;
-      width: fit-content;
-      transition: all 0.3s ease;
+      border-radius: 999px; width: fit-content;
       animation: badgePop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
     @keyframes badgePop {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
-
     .rating-badge.visible { display: inline-flex; }
-
-    .rating-badge .stars-display {
-      font-size: 20px;
-      letter-spacing: 2px;
-    }
-
-    .rating-badge .rating-number {
-      font-size: 20px;
-      font-weight: 800;
-      color: #fbbf24;
-    }
-
+    .rating-badge .stars-display { font-size: 20px; letter-spacing: 2px; }
+    .rating-badge .rating-number { font-size: 20px; font-weight: 800; color: #fbbf24; }
     .rating-badge .rating-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: #d4a72c;
-      padding: 2px 10px;
-      background: rgba(251, 191, 36, 0.12);
-      border-radius: 20px;
+      font-size: 13px; font-weight: 500; color: #d4a72c;
+      padding: 2px 10px; background: rgba(251, 191, 36, 0.12); border-radius: 20px;
     }
-
     #rating-text {
-      display: block;
-      margin-top: 10px;
-      font-size: 13px;
-      color: #6b7280;
-      min-height: 20px;
-      transition: color 0.3s ease;
+      display: block; margin-top: 10px; font-size: 13px;
+      color: #6b7280; min-height: 20px; transition: color 0.3s ease;
     }
 
-    /* Form */
+    /* Form fields */
     .form-group { margin-bottom: 22px; }
     .form-group label {
       display: block; font-size: 13px; font-weight: 600;
@@ -198,50 +144,18 @@
     }
     .form-group textarea { min-height: 130px; resize: vertical; }
 
-    /* Submit */
     .submit-btn {
       width: 100%; padding: 16px;
       background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
       border: none; border-radius: 14px; color: #fff; font-size: 16px;
       font-weight: 600; font-family: 'Inter', sans-serif;
       cursor: pointer; transition: all 0.3s ease;
-      position: relative; overflow: hidden;
     }
     .submit-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 32px rgba(124, 58, 237, 0.35);
     }
     .submit-btn:active { transform: translateY(0); }
-    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-    .submit-btn .spinner {
-      display: none; width: 20px; height: 20px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff; border-radius: 50%;
-      animation: spin 0.7s linear infinite; margin: 0 auto;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .submit-btn.loading .btn-text { display: none; }
-    .submit-btn.loading .spinner { display: block; }
-
-    /* Messages */
-    .form-message {
-      display: none; text-align: center; padding: 16px;
-      border-radius: 14px; margin-top: 20px; font-size: 14px; font-weight: 500;
-    }
-    .form-message.success {
-      display: block;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      color: #6ee7b7;
-    }
-    .form-message.success .check-icon { font-size: 32px; display: block; margin-bottom: 8px; }
-    .form-message.error {
-      display: block;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      color: #fca5a5;
-    }
 
     .footer { text-align: center; margin-top: 24px; font-size: 12px; color: #4b5563; }
 
@@ -264,29 +178,30 @@
     </div>
 
     <form id="feedback-form" action="https://formsubmit.co/subhankar@agentmail.to" method="POST">
+      <!-- FormSubmit config -->
       <input type="hidden" name="_subject" value="New Feedback Received">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="true">
-      <input type="hidden" name="_next" value="">
+      <input type="hidden" name="_next" value="https://subhankarpattanayak42-blip.github.io/feedback-site/thank-you.html">
+      <input type="hidden" name="_autoresponse" value="Thank you for your feedback! We appreciate you taking the time to share your thoughts.">
 
-      <!-- ═══ RATING ═══ -->
+      <!-- Rating -->
       <div class="rating-section">
         <span class="section-label">Your Rating</span>
 
         <div class="stars">
-          <input type="radio" name="rating" id="star5" value="5">
+          <input type="radio" name="Rating" id="star5" value="5 - Excellent">
           <label for="star5" title="5 stars — Excellent">★</label>
-          <input type="radio" name="rating" id="star4" value="4">
+          <input type="radio" name="Rating" id="star4" value="4 - Great">
           <label for="star4" title="4 stars — Great">★</label>
-          <input type="radio" name="rating" id="star3" value="3">
+          <input type="radio" name="Rating" id="star3" value="3 - Good">
           <label for="star3" title="3 stars — Good">★</label>
-          <input type="radio" name="rating" id="star2" value="2">
+          <input type="radio" name="Rating" id="star2" value="2 - Fair">
           <label for="star2" title="2 stars — Fair">★</label>
-          <input type="radio" name="rating" id="star1" value="1">
+          <input type="radio" name="Rating" id="star1" value="1 - Poor">
           <label for="star1" title="1 star — Poor">★</label>
         </div>
 
-        <!-- Big clear badge showing what was selected -->
         <div class="rating-badge" id="rating-badge">
           <span class="stars-display" id="badge-stars"></span>
           <span class="rating-number" id="badge-number"></span>
@@ -299,25 +214,19 @@
       <!-- Name (Optional) -->
       <div class="form-group">
         <label>Your Name <span class="optional">(optional)</span></label>
-        <input type="text" name="name" placeholder="Enter your name" autocomplete="name">
+        <input type="text" name="Name" placeholder="Enter your name" autocomplete="name">
       </div>
 
       <!-- Feedback -->
       <div class="form-group">
         <label>Your Feedback</label>
-        <textarea name="feedback" placeholder="Tell us what you think... What did you like? What could be better?" required></textarea>
+        <textarea name="Feedback" placeholder="Tell us what you think... What did you like? What could be better?" required></textarea>
       </div>
 
       <button type="submit" class="submit-btn" id="submit-btn">
-        <span class="btn-text">Submit Feedback ✨</span>
-        <div class="spinner"></div>
+        Submit Feedback ✨
       </button>
     </form>
-
-    <div class="form-message" id="form-message">
-      <span class="check-icon">✅</span>
-      <span id="message-text">Thank you! Your feedback has been sent.</span>
-    </div>
 
     <div class="footer">Name is optional. Your feedback goes directly to the team.</div>
   </div>
@@ -336,89 +245,29 @@
       pc.appendChild(p);
     }
 
-    // ─── Rating stars with clear badge ───
+    // ─── Rating badge ───
     const ratingInputs = document.querySelectorAll('.stars input');
     const badgeStars   = document.getElementById('badge-stars');
     const badgeNumber  = document.getElementById('badge-number');
     const badgeLabel   = document.getElementById('badge-label');
     const badge        = document.getElementById('rating-badge');
     const ratingText   = document.getElementById('rating-text');
-
     const labels = ['', 'Poor', 'Fair', 'Good', 'Great', 'Excellent'];
 
     ratingInputs.forEach(input => {
       input.addEventListener('change', function() {
         const val = parseInt(this.value);
-        // Update badge
         badgeStars.textContent  = '★'.repeat(val) + '☆'.repeat(5 - val);
         badgeNumber.textContent = val + '/5';
         badgeLabel.textContent  = labels[val];
         badge.classList.add('visible');
-
-        // Update subtitle text
         ratingText.textContent  = 'You rated: ' + labels[val] + ' (' + val + '/5)';
         ratingText.style.color  = '#fbbf24';
       });
     });
 
-    // ─── Form submission ───
-    const form        = document.getElementById('feedback-form');
-    const submitBtn   = document.getElementById('submit-btn');
-    const formMessage = document.getElementById('form-message');
-    const messageText = document.getElementById('message-text');
-
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const feedback = form.querySelector('[name="feedback"]').value.trim();
-      if (!feedback) {
-        formMessage.className = 'form-message error';
-        messageText.textContent = 'Please write your feedback before submitting.';
-        return;
-      }
-
-      submitBtn.classList.add('loading');
-      submitBtn.disabled = true;
-      formMessage.className = 'form-message';
-
-      try {
-        const formData = new FormData(form);
-        const response = await fetch(form.action, { method: 'POST', body: formData });
-
-        if (response.ok || response.status === 200 || response.status === 201) {
-          formMessage.className = 'form-message success';
-          document.querySelector('#form-message .check-icon').textContent = '✅';
-          messageText.textContent = 'Thank you! Your feedback has been sent successfully.';
-          form.reset();
-          badge.classList.remove('visible');
-          ratingText.textContent = 'Tap a star to rate';
-          ratingText.style.color = '#6b7280';
-          setTimeout(() => { formMessage.className = 'form-message'; }, 5000);
-        } else {
-          throw new Error('Server error');
-        }
-      } catch (err) {
-        // Fallback: mailto
-        formMessage.className = 'form-message error';
-        document.querySelector('#form-message .check-icon').textContent = '⚠️';
-        messageText.textContent = 'Could not send via web. Opening email client as backup...';
-
-        const rating = form.querySelector('[name="rating"]:checked');
-        const name = form.querySelector('[name="name"]').value.trim();
-        const fb = form.querySelector('[name="feedback"]').value.trim();
-        const starsVal = rating ? '★'.repeat(parseInt(rating.value)) + ' (' + rating.value + '/5)' : 'No rating';
-
-        let body = '--- Feedback ---\n\n';
-        body += 'Rating: ' + starsVal + '\n';
-        body += 'Name: ' + (name || 'Anonymous') + '\n';
-        body += 'Feedback: ' + fb + '\n';
-
-        window.location.href = 'mailto:subhankar@agentmail.to?subject=New%20Feedback%20Received&body=' + encodeURIComponent(body);
-      } finally {
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-      }
-    });
+    // HTML form submits naturally — no JS fetch, no CORS issues
+    // FormSubmit handles the rest and redirects to thank-you page
   </script>
 </body>
 </html>
