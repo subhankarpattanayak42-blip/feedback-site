@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback & Ratings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #0b0e17 0%, #1a1f35 50%, #0f1322 100%);
+      min-height: 100vh;
+      color: #e8e8ed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 560px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 48px 40px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .card-header .icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .card-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f0e6ff 0%, #c4b5fd 50%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .card-header p {
+      font-size: 15px;
+      color: #9ca3af;
+      margin-top: 8px;
+      font-weight: 400;
+    }
+
+    /* Rating Stars */
+    .rating-section {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .rating-section label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #d1d5db;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .stars {
+      display: inline-flex;
+      flex-direction: row-reverse;
+      gap: 6px;
+    }
+
+    .stars input {
+      display: none;
+    }
+
+    .stars label {
+      cursor: pointer;
+      font-size: 40px;
+      color: #374151;
+      transition: all 0.2s ease;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .stars label:hover,
+    .stars label:hover ~ label,
+    .stars input:checked ~ label {
+      color: #fbbf24;
+      text-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
+    }
+
+    .stars label:active {
+      transform: scale(0.9);
+    }
+
+    #rating-text {
+      display: block;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #6b7280;
+      min-height: 20px;
+      transition: color 0.3s ease;
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #9ca3af;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .form-group label .optional {
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      color: #e8e8ed;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #4b5563;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #a78bfa;
+      background: rgba(167, 139, 250, 0.08);
+      box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+    }
+
+    .form-group textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      border: none;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(124, 58, 237, 0.35);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .submit-btn .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .submit-btn.loading .btn-text { display: none; }
+    .submit-btn.loading .spinner { display: block; }
+
+    /* Success / Error states */
+    .form-message {
+      display: none;
+      text-align: center;
+      padding: 16px;
+      border-radius: 14px;
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .form-message.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #6ee7b7;
+    }
+
+    .form-message.success .check-icon {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .form-message.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #fca5a5;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 12px;
+      color: #4b5563;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .card {
+        padding: 32px 20px;
+        border-radius: 20px;
+      }
+      .card-header h1 { font-size: 22px; }
+      .stars label { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="icon">💬</span>
+      <h1>We Value Your Feedback</h1>
+      <p>Your opinion helps us improve. Share your thoughts below.</p>
+    </div>
+
+    <form id="feedback-form" action="https://formsubmit.co/subhankar@agentmail.to" method="POST">
+      <!-- Hidden fields -->
+      <input type="hidden" name="_subject" value="New Feedback Received">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="true">
+      <input type="hidden" name="_next" value="">
+
+      <!-- Rating -->
+      <div class="rating-section">
+        <label>Your Rating</label>
+        <div class="stars">
+          <input type="radio" name="rating" id="star5" value="5">
+          <label for="star5" title="Excellent">⭐</label>
+          <input type="radio" name="rating" id="star4" value="4">
+          <label for="star4" title="Great">⭐</label>
+          <input type="radio" name="rating" id="star3" value="3">
+          <label for="star3" title="Good">⭐</label>
+          <input type="radio" name="rating" id="star2" value="2">
+          <label for="star2" title="Fair">⭐</label>
+          <input type="radio" name="rating" id="star1" value="1">
+          <label for="star1" title="Poor">⭐</label>
+        </div>
+        <span id="rating-text">Tap a star to rate</span>
+      </div>
+
+      <!-- Name (Optional) -->
+      <div class="form-group">
+        <label>Your Name <span class="optional">(optional)</span></label>
+        <input type="text" name="name" placeholder="Enter your name" autocomplete="name">
+      </div>
+
+      <!-- Feedback -->
+      <div class="form-group">
+        <label>Your Feedback</label>
+        <textarea name="feedback" placeholder="Tell us what you think... What did you like? What could be better?" required></textarea>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <span class="btn-text">Submit Feedback ✨</span>
+        <div class="spinner"></div>
+      </button>
+    </form>
+
+    <div class="form-message" id="form-message">
+      <span class="check-icon">✅</span>
+      <span id="message-text">Thank you! Your feedback has been sent.</span>
+    </div>
+
+    <div class="footer">
+      Your feedback will be sent directly. Name is completely optional.
+    </div>
+  </div>
+
+  <script>
+    // Generate floating particles
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.width = p.style.height = (1 + Math.random() * 4) + 'px';
+      p.style.animationDuration = (8 + Math.random() * 20) + 's';
+      p.style.animationDelay = (Math.random() * 15) + 's';
+      p.style.opacity = 0.1 + Math.random() * 0.3;
+      particlesContainer.appendChild(p);
+    }
+
+    // Rating text
+    const ratingInputs = document.querySelectorAll('.stars input');
+    const ratingText = document.getElementById('rating-text');
+    const labels = ['Poor', 'Fair', 'Good', 'Great', 'Excellent'];
+    ratingInputs.forEach(input => {
+      input.addEventListener('change', function() {
+        ratingText.textContent = labels[this.value - 1];
+        ratingText.style.color = '#fbbf24';
+      });
+    });
+
+    // Form submission
+    const form = document.getElementById('feedback-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formMessage = document.getElementById('form-message');
+    const messageText = document.getElementById('message-text');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Validate: must have feedback text
+      const feedback = form.querySelector('[name="feedback"]').value.trim();
+      if (!feedback) {
+        formMessage.className = 'form-message error';
+        messageText.textContent = 'Please write your feedback before submitting.';
+        return;
+      }
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+      formMessage.className = 'form-message';
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok || response.status === 200 || response.status === 201) {
+          // Success
+          formMessage.className = 'form-message success';
+          document.querySelector('#form-message .check-icon').textContent = '✅';
+          messageText.textContent = 'Thank you! Your feedback has been sent successfully.';
+          form.reset();
+          ratingText.textContent = 'Tap a star to rate';
+          ratingText.style.color = '#6b7280';
+          // Hide after 5s
+          setTimeout(() => {
+            formMessage.className = 'form-message';
+          }, 5000);
+        } else {
+          throw new Error('Server error');
+        }
+      } catch (err) {
+        // Fallback: open mailto as backup
+        formMessage.className = 'form-message error';
+        document.querySelector('#form-message .check-icon').textContent = '⚠️';
+        messageText.textContent = 'Could not send via web. Opening email client as backup...';
+
+        // Build mailto fallback
+        const rating = form.querySelector('[name="rating"]:checked');
+        const name = form.querySelector('[name="name"]').value.trim();
+        const feedbackText = form.querySelector('[name="feedback"]').value.trim();
+        const stars = rating ? '⭐'.repeat(parseInt(rating.value)) : 'No rating';
+
+        let body = '--- Feedback ---\n\n';
+        body += 'Rating: ' + stars + '\n';
+        body += 'Name: ' + (name || 'Anonymous') + '\n';
+        body += 'Feedback: ' + feedbackText + '\n';
+
+        window.location.href = 'mailto:subhankar@agentmail.to?subject=Feedback%20Received&body=' + encodeURIComponent(body);
+      } finally {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
