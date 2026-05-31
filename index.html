@@ -150,14 +150,51 @@
       border: none; border-radius: 14px; color: #fff; font-size: 16px;
       font-weight: 600; font-family: 'Inter', sans-serif;
       cursor: pointer; transition: all 0.3s ease;
+      position: relative;
     }
     .submit-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 32px rgba(124, 58, 237, 0.35);
     }
     .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .footer { text-align: center; margin-top: 24px; font-size: 12px; color: #4b5563; }
+
+    /* Success overlay */
+    .success-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(11, 14, 23, 0.92);
+      border-radius: 28px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+      z-index: 10;
+    }
+    .success-overlay.visible { display: flex; }
+    .success-overlay .check-big { font-size: 72px; margin-bottom: 20px; }
+    .success-overlay h2 {
+      font-size: 26px; font-weight: 700;
+      background: linear-gradient(135deg, #f0e6ff 0%, #c4b5fd 50%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .success-overlay p { font-size: 14px; color: #9ca3af; margin-bottom: 24px; line-height: 1.6; }
+    .success-overlay .btn-done {
+      padding: 12px 32px;
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      border: none; border-radius: 14px; color: #fff;
+      font-size: 15px; font-weight: 600; font-family: 'Inter', sans-serif;
+      cursor: pointer; text-decoration: none;
+    }
 
     @media (max-width: 480px) {
       .card { padding: 32px 20px; border-radius: 20px; }
@@ -170,35 +207,28 @@
 <body>
   <div class="particles" id="particles"></div>
 
-  <div class="card">
+  <div class="card" style="position:relative;">
     <div class="card-header">
       <span class="icon">💬</span>
       <h1>We Value Your Feedback</h1>
       <p>Your opinion helps us improve. Share your thoughts below.</p>
     </div>
 
-    <form id="feedback-form" action="https://formsubmit.co/subhankar@agentmail.to" method="POST">
-      <!-- FormSubmit config -->
-      <input type="hidden" name="_subject" value="New Feedback Received">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="true">
-      <input type="hidden" name="_next" value="https://subhankarpattanayak42-blip.github.io/feedback-site/thank-you.html">
-      <input type="hidden" name="_autoresponse" value="Thank you for your feedback! We appreciate you taking the time to share your thoughts.">
-
+    <form id="feedback-form">
       <!-- Rating -->
       <div class="rating-section">
         <span class="section-label">Your Rating</span>
 
         <div class="stars">
-          <input type="radio" name="Rating" id="star5" value="5 - Excellent">
+          <input type="radio" name="rating" id="star5" value="5">
           <label for="star5" title="5 stars — Excellent">★</label>
-          <input type="radio" name="Rating" id="star4" value="4 - Great">
+          <input type="radio" name="rating" id="star4" value="4">
           <label for="star4" title="4 stars — Great">★</label>
-          <input type="radio" name="Rating" id="star3" value="3 - Good">
+          <input type="radio" name="rating" id="star3" value="3">
           <label for="star3" title="3 stars — Good">★</label>
-          <input type="radio" name="Rating" id="star2" value="2 - Fair">
+          <input type="radio" name="rating" id="star2" value="2">
           <label for="star2" title="2 stars — Fair">★</label>
-          <input type="radio" name="Rating" id="star1" value="1 - Poor">
+          <input type="radio" name="rating" id="star1" value="1">
           <label for="star1" title="1 star — Poor">★</label>
         </div>
 
@@ -207,20 +237,19 @@
           <span class="rating-number" id="badge-number"></span>
           <span class="rating-label" id="badge-label"></span>
         </div>
-
         <span id="rating-text">Tap a star to rate</span>
       </div>
 
       <!-- Name (Optional) -->
       <div class="form-group">
         <label>Your Name <span class="optional">(optional)</span></label>
-        <input type="text" name="Name" placeholder="Enter your name" autocomplete="name">
+        <input type="text" id="name-input" placeholder="Enter your name" autocomplete="name">
       </div>
 
       <!-- Feedback -->
       <div class="form-group">
         <label>Your Feedback</label>
-        <textarea name="Feedback" placeholder="Tell us what you think... What did you like? What could be better?" required></textarea>
+        <textarea id="feedback-input" placeholder="Tell us what you think... What did you like? What could be better?" required></textarea>
       </div>
 
       <button type="submit" class="submit-btn" id="submit-btn">
@@ -228,11 +257,19 @@
       </button>
     </form>
 
-    <div class="footer">Name is optional. Your feedback goes directly to the team.</div>
+    <!-- Success overlay -->
+    <div class="success-overlay" id="success-overlay">
+      <div class="check-big">✅</div>
+      <h2>Thank You!</h2>
+      <p>Your feedback form has been prepared.<br>Your email client will open with the details pre-filled — just hit send!</p>
+      <button class="btn-done" onclick="document.getElementById('success-overlay').classList.remove('visible')">Submit Another</button>
+    </div>
+
+    <div class="footer">Name is optional. Your feedback goes directly to Subhankar's inbox.</div>
   </div>
 
   <script>
-    // ─── Floating particles ───
+    // ─── Particles ───
     const pc = document.getElementById('particles');
     for (let i = 0; i < 40; i++) {
       const p = document.createElement('div');
@@ -266,8 +303,54 @@
       });
     });
 
-    // HTML form submits naturally — no JS fetch, no CORS issues
-    // FormSubmit handles the rest and redirects to thank-you page
+    // ─── Submit via mailto ───
+    const form        = document.getElementById('feedback-form');
+    const submitBtn   = document.getElementById('submit-btn');
+    const overlay     = document.getElementById('success-overlay');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const ratingEl = document.querySelector('.stars input:checked');
+      const name     = document.getElementById('name-input').value.trim();
+      const feedback = document.getElementById('feedback-input').value.trim();
+
+      if (!feedback) {
+        alert('Please write your feedback before submitting.');
+        return;
+      }
+
+      const ratingVal  = ratingEl ? parseInt(ratingEl.value) : 0;
+      const ratingText = labels[ratingVal] || 'Not rated';
+      const starsStr   = ratingVal ? '★'.repeat(ratingVal) + ' (' + ratingVal + '/5 - ' + ratingText + ')' : 'No rating given';
+
+      // Build email body
+      let body = '';
+      body += 'New Feedback Received\n';
+      body += '═══════════════════════\n\n';
+      body += '⭐ Rating: ' + starsStr + '\n';
+      body += '👤 Name: ' + (name || 'Anonymous') + '\n';
+      body += '💬 Feedback:\n' + feedback + '\n\n';
+      body += '---\nSent via feedback-site\n';
+
+      const mailtoUrl = 'mailto:subhankar@agentmail.to'
+        + '?subject=' + encodeURIComponent('📝 Feedback Received: ' + (ratingVal + '/5'))
+        + '&body=' + encodeURIComponent(body);
+
+      // Show success overlay
+      overlay.classList.add('visible');
+
+      // Open email client after brief delay
+      setTimeout(function() {
+        window.open(mailtoUrl, '_blank');
+      }, 600);
+
+      // Reset form
+      form.reset();
+      badge.classList.remove('visible');
+      ratingText.textContent = 'Tap a star to rate';
+      ratingText.style.color = '#6b7280';
+    });
   </script>
 </body>
 </html>
